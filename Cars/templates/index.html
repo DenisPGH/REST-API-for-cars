@@ -9,7 +9,7 @@
     <h2> Please, login</h2>
 </div>
 <div>
-    <form class="login" method='get' action="{% url 'restusers' %}">
+    <form class="login" method='post' action="{% url 'loginJ' %}">
         {{ form.as_p }}
 
                 <button class="login">LOGIN</button>
