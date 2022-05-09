@@ -39,10 +39,15 @@ DJANGO_APPS = [
     'django.contrib.staticfiles',
 ]
 REST_APPS=[
+    'rest_framework',
+    'django_filters',
+    'rest_framework.authtoken',
+    'bootstrap4',
 
 ]
 OTHER_APPS=[
     'Cars.users_app',
+    'Cars.cars_rest',
 
 ]
 
@@ -132,4 +137,15 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'users_app.CustomCarUser'
-LOGOUT_REDIRECT_URL='index'
+LOGOUT_REDIRECT_URL= 'loginJ'
+
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        #'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 10
+}
