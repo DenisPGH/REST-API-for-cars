@@ -11,6 +11,7 @@ from Cars.users_app.models import CustomCarUser
 @admin.register(CustomCarUser)
 class CustomUserAdmin(admin.ModelAdmin):
     list_display = (
-        'username','user_car', 'email', 'first_name', 'last_name', 'is_staff',
+        'username','deleted_at','is_deleted','user_car', 'email', 'first_name',
+        'last_name', 'is_staff',
 
         )
