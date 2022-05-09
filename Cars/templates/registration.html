@@ -6,6 +6,14 @@
 </head>
 <body>
 <h2> regi here</h2>
+<div>
+    <form class="field" enctype="multipart/form-data" method='post' action="{% url 'registration' %}">
+            {{ form.as_p }}
+
+         <button class="regi"> SAVE </button>
+            {% csrf_token %}
+        </form>
+</div>
 
 </body>
 </html>

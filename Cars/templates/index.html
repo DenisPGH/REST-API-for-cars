@@ -6,7 +6,19 @@
 </head>
 <body>
 <div>
-    <h2> OK WORKS</h2>
+    <h2> Please, login</h2>
+</div>
+<div>
+    <form class="login" method='get' action="{% url 'main' %}">
+        {{ form.as_p }}
+
+                <button class="login">LOGIN</button>
+                {% csrf_token %}
+            </form>
+     <form class="registration" method='post' action="{% url 'registration' %}">
+                <button class="login">New registration</button>
+                {% csrf_token %}
+            </form>
 </div>
 
 </body>
