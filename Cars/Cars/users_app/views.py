@@ -10,7 +10,7 @@ from django.contrib.auth import mixins as auth_mixin
 class MyLoginView(LoginView,auth_mixin.LoginRequiredMixin):
     template_name = 'index.html'
     def get_success_url(self):
-        return reverse_lazy('restusers')
+        return reverse_lazy('main')
 
 class LogoutPageView(LogoutView):
     """ by pressing logout, redirect to fitst page"""

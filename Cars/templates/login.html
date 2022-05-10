@@ -1,14 +1,42 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+     <link rel="stylesheet" href="{% static 'login.css' %}">
+    <script type="text/JavaScript" src="{% static 'index.js' %}"> </script>
     <title>Title</title>
 </head>
-<body>
-<h2> LOGIN WORK </h2>
+<body onload="startTime()">
+
+<div id="txt"></div>
 <div>
         <form class="app" method='get' action="{% url 'restusers' %}">
-         <button class="regi">GO to REST</button>
+         <button class="regi">GO to Users</button>
+            {% csrf_token %}
+
+        </form>
+    </div>
+
+<div>
+        <form class="app" method='get' action="{% url 'brands' %}">
+         <button class="regi">GO to Brands</button>
+            {% csrf_token %}
+
+        </form>
+    </div>
+
+<div>
+        <form class="app" method='get' action="{% url 'models' %}">
+         <button class="regi">GO to Models</button>
+            {% csrf_token %}
+
+        </form>
+    </div>
+
+<div>
+        <form class="app" method='get' action="{% url 'cars' %}">
+         <button class="regi">GO to Cars</button>
             {% csrf_token %}
 
         </form>
@@ -16,3 +44,4 @@
 
 </body>
 </html>
+

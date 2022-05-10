@@ -24,3 +24,4 @@ urlpatterns = [
     path('restpart/',include('Cars.cars_rest.urls'),name='restpart'),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
+
