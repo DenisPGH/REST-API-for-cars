@@ -5,6 +5,7 @@ from django.views import generic as views
 from Cars.users_app.models import CustomCarUser
 from django.contrib.auth.views import LoginView,LogoutView
 from django.contrib.auth import mixins as auth_mixin
+from django.contrib.auth import forms as auth_forms
 
 
 class MyLoginView(LoginView,auth_mixin.LoginRequiredMixin):
@@ -17,11 +18,14 @@ class LogoutPageView(LogoutView):
     def get_success_url(self):
         return reverse_lazy('index')
 
+class CreateNewUserForm(auth_forms.UserCreationForm):
+    class Meta:
+        model = CustomCarUser
+        fields = ('username','first_name', 'last_name','password1', 'password2', )
 
 
 class RegistrationView(views.CreateView):
-    model=CustomCarUser
-    fields = ('password','username','first_name','last_name')
+    form_class = CreateNewUserForm
     template_name = 'registration.html'
     success_url = reverse_lazy('loginJ')
 

@@ -141,7 +141,7 @@ STATICFILES_DIRS = (
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'users_app.CustomCarUser'
-LOGOUT_REDIRECT_URL= 'logout'
+LOGOUT_REDIRECT_URL= 'loginJ'
 
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],

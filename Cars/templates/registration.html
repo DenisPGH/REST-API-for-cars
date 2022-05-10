@@ -10,7 +10,7 @@
     <form class="field" enctype="multipart/form-data" method='post' action="{% url 'registration' %}">
             {{ form.as_p }}
 
-         <button class="regi"> SAVE </button>
+         <button class="regi" type="submit"> SAVE </button>
             {% csrf_token %}
         </form>
 </div>
