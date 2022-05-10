@@ -52,8 +52,8 @@
         </form>
     </div>
 
-
-<div>
+<div class="info">
+<div class="cars">
 <h2> CARS:</h2>
     <table>
     <tr>
@@ -86,6 +86,71 @@
 
     {% endfor %}
 </table>
+</div>
+
+<div class="model">
+<h2> Models:</h2>
+    <table>
+    <tr>
+
+        <th>Model</th>
+        <th>Brand</th>
+        <th>edit</th>
+
+
+    </tr>
+    {%  for each in models %}
+        <tr>
+
+            <td>{{ each.name}}</td>
+            <td>{{ each.car_brand}}</td>
+
+            <td>
+                <form class="app" method='post' action="{% url 'single model' each.id %}">
+         <button class="regi">edit</button>
+            {% csrf_token %}
+
+        </form>
+
+            </td>
+
+        </tr>
+
+    {% endfor %}
+</table>
+</div>
+
+<div class="brands">
+<h2> Brands:</h2>
+    <table>
+    <tr>
+
+        <th>Brand</th>
+        <th>edit</th>
+
+
+    </tr>
+    {%  for each in brands %}
+        <tr>
+
+            <td>{{ each.name}}</td>
+
+
+            <td>
+                <form class="app" method='post' action="{% url 'single brand' each.id %}">
+         <button class="regi">edit</button>
+            {% csrf_token %}
+
+        </form>
+
+            </td>
+
+        </tr>
+
+    {% endfor %}
+</table>
+</div>
+
 </div>
 
 </body>

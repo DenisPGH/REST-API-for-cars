@@ -67,13 +67,17 @@ class ListBrands(api_views.ListCreateAPIView):
     queryset = CarBrand.objects.all()
     serializer_class = CarBrandSerializer
 
+class SingleCarBrandView(api_views.RetrieveUpdateDestroyAPIView):
+    queryset = CarBrand.objects.all()
+    serializer_class = CarBrandSerializer
+
 
 """ cars models"""
 
-class OnlyNameCarModelsSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CarModel
-        fields = ( 'name',)
+# class OnlyNameCarModelsSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = CarModel
+#         fields = ( 'name',)
 
 
 class CarModelSerializer(serializers.ModelSerializer):
@@ -81,12 +85,16 @@ class CarModelSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CarModel
-        fields = ('name',)
+        fields = '__all__'
 
 class ListModels(api_views.ListCreateAPIView):
     permission_classes = (
         permissions.IsAuthenticated,
     )
+    queryset = CarModel.objects.all()
+    serializer_class = CarModelSerializer
+
+class SingleCarModelView(api_views.RetrieveUpdateDestroyAPIView):
     queryset = CarModel.objects.all()
     serializer_class = CarModelSerializer
 
