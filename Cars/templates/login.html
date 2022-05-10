@@ -8,11 +8,16 @@
     <title>Title</title>
 </head>
 <body onload="startTime()">
-<div> <h2>Helloo {{ user|capfirst }}</h2></div>
-<div id="txt"></div>
+
+
+<header>
+    <div class="gruss">Helloo {{ user|capfirst}}</div>
+    <div id="txt"></div>
+
+
 <div>
         <form class="app" method='get' action="{% url 'restusers' %}">
-         <button class="regi">GO to Users</button>
+         <button class="regi">Users</button>
             {% csrf_token %}
 
         </form>
@@ -20,7 +25,7 @@
 
 <div>
         <form class="app" method='get' action="{% url 'brands' %}">
-         <button class="regi">GO to Brands</button>
+         <button class="regi">Brands</button>
             {% csrf_token %}
 
         </form>
@@ -30,7 +35,7 @@
 
 <div>
         <form class="app" method='get' action="{% url 'models' %}">
-         <button class="regi">GO to Models</button>
+         <button class="regi">Models</button>
             {% csrf_token %}
 
         </form>
@@ -38,7 +43,7 @@
 
 <div>
         <form class="app" method='get' action="{% url 'cars' %}">
-         <button class="regi">GO to Cars</button>
+         <button class="regi">Cars</button>
             {% csrf_token %}
 
         </form>
@@ -52,9 +57,11 @@
         </form>
     </div>
 
+</header>
+
 <div class="info">
 <div class="cars">
-<h2> CARS:</h2>
+<h2> Cars:</h2>
     <table>
     <tr>
         <th>User</th>
