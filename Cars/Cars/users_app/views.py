@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic as views
 # Create your views here.
+from Cars.cars_rest.models import UserCar
 from Cars.users_app.models import CustomCarUser
 from django.contrib.auth.views import LoginView,LogoutView
 from django.contrib.auth import mixins as auth_mixin
@@ -31,4 +32,9 @@ class RegistrationView(views.CreateView):
 
 
 class RestTest(views.TemplateView,auth_mixin.LoginRequiredMixin):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['cars'] = UserCar.objects.all()
+        return context
+
     template_name = 'login.html'

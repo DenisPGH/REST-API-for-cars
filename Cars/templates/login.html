@@ -52,6 +52,43 @@
         </form>
     </div>
 
+
+<div>
+<h2> CARS:</h2>
+    <table>
+    <tr>
+        <th>User</th>
+        <th>Model</th>
+        <th>Brand</th>
+        <th>odometer</th>
+        <th>Year</th>
+        <th>edit</th>
+
+    </tr>
+    {%  for each in cars %}
+        <tr>
+
+            <td>{{ each.user}}</td>
+            <td>{{ each.car_model }}</td>
+            <td>{{ each.car_brand }}</td>
+            <td>{{ each.odometer }}</td>
+            <td>{{ each.first_reg }}</td>
+            <td>
+                <form class="app" method='post' action="{% url 'single car' each.id %}">
+         <button class="regi">edit</button>
+            {% csrf_token %}
+
+        </form>
+
+            </td>
+
+        </tr>
+
+    {% endfor %}
+</table>
+</div>
+
 </body>
 </html>
+
 
