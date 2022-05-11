@@ -5,10 +5,8 @@ from django_softdelete.models import SoftDeleteModel
 
 class TimeHelper(models.Model):
     """this class store the date info for creating"""
-    created_at= models.DateTimeField(auto_now_add=True,
-                                    )
-    updated_at = models.DateTimeField(auto_now=True,
-                                     )
+    created_at= models.DateTimeField(auto_now_add=True, )
+    updated_at = models.DateTimeField(auto_now=True, )
     class Meta:
         abstract=True
 

@@ -16,11 +16,47 @@ from Cars.cars_rest.serializers import InfoAllUsersSerializer, CarBrandSerialize
 from Cars.users_app.models import CustomCarUser
 
 """ here users logic"""
-class UserViewSet(viewsets.ViewSet):
-    def update(self, request, pk=None):
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = CustomCarUser.objects.all()
+    serializer_class = UpdateUsersSerializer
+    def show(self, request,pk=None, *args, **kwargs):
         user = CustomCarUser.objects.get(pk=pk)
         serializer = UpdateUsersSerializer(user)
         return Response(serializer.data)
+
+
+    def put(self, request, pk=None):
+        user = CustomCarUser.objects.get(pk=pk)
+        data = request.data
+        user.username=data['username']
+        user.first_name=data['first_name']
+        user.last_name=data['last_name']
+        user.save()
+        serializer = UpdateUsersSerializer(user)
+        return Response(serializer.data)
+
+
+
+    # def perform_update(self, serializer):
+    #     serializer.save()
+    #
+    # def partial_update(self, request, *args, **kwargs):
+    #     kwargs['partial'] = True
+    #     return self.update(request, *args, **kwargs)
+    #
+    # def update(self, request, *args, **kwargs):
+    #     partial = kwargs.pop('partial', False)
+    #     instance = CustomCarUser.objects.get(pk=1)
+    #     serializer = UpdateUsersSerializer(instance, data=request.data, partial=partial)
+    #     serializer.is_valid(raise_exception=True)
+    #     self.perform_update(serializer)
+    #
+    #     return Response(serializer.data)
+
+
+
+
+
 
 
 class UserFilterSet(filters_rest.FilterSet):
@@ -56,6 +92,7 @@ class BrandsViewSet(viewsets.ViewSet):
         queryset = CarBrand.objects.all()
         serializer = CarBrandListSerializer(queryset, many=True)
         return Response(serializer.data)
+
 
     def update(self, request, pk=None):
         brand = CarBrand.objects.get(pk=pk)
@@ -110,7 +147,6 @@ class ListCars(api_views.ListAPIView):
 class SingleCarView(api_views.RetrieveUpdateDestroyAPIView):
     queryset = UserCar.objects.all()
     serializer_class = CarSerializer
-
 
 
 
