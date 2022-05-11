@@ -12,13 +12,25 @@ from django.shortcuts import get_object_or_404
 
 from Cars.cars_rest.models import CarBrand, CarModel, UserCar
 from Cars.cars_rest.serializers import InfoAllUsersSerializer, CarBrandSerializer, CarModelSerializer, \
-    CreateCarSerializer, CarSerializer, CarBrandListSerializer, UpdateUsersSerializer
+    CreateCarSerializer, CarSerializer, CarBrandListSerializer, UpdateUsersSerializer, ListUsersSerializer
 from Cars.users_app.models import CustomCarUser
 
 """ here users logic"""
+class UserFilterSet(filters_rest.FilterSet):
+    class Meta:
+        model = CustomCarUser
+        fields = ('id',)
+
+
 class UserViewSet(viewsets.ModelViewSet):
+    permission_classes = (
+        permissions.IsAuthenticated,
+        permissions.BasePermission
+    )
     queryset = CustomCarUser.objects.all()
     serializer_class = UpdateUsersSerializer
+    # filter_backends = [filters_rest.DjangoFilterBackend]
+    # filterset_class = UserFilterSet
     def show(self, request,pk=None, *args, **kwargs):
         user = CustomCarUser.objects.get(pk=pk)
         serializer = UpdateUsersSerializer(user)
@@ -35,34 +47,33 @@ class UserViewSet(viewsets.ModelViewSet):
         serializer = UpdateUsersSerializer(user)
         return Response(serializer.data)
 
+    # def get_queryset(self,*args,**kwargs):
+    #     # query=''
+    #     # search_id = self.request.query_params.get('id', None)
+    #     queryset=CustomCarUser.objects.all()
+    #     # if search_id:
+    #     #     query=queryset.filter(id=search_id)
+    #     # else:
+    #     #     query=queryset
+    #     serializers=InfoAllUsersSerializer(queryset)
+    #     return Response(serializers.data)
 
+    def list(self, request, *args, **kwargs):
+        queryset = CustomCarUser.objects.all()
 
-    # def perform_update(self, serializer):
-    #     serializer.save()
-    #
-    # def partial_update(self, request, *args, **kwargs):
-    #     kwargs['partial'] = True
-    #     return self.update(request, *args, **kwargs)
-    #
-    # def update(self, request, *args, **kwargs):
-    #     partial = kwargs.pop('partial', False)
-    #     instance = CustomCarUser.objects.get(pk=1)
-    #     serializer = UpdateUsersSerializer(instance, data=request.data, partial=partial)
-    #     serializer.is_valid(raise_exception=True)
-    #     self.perform_update(serializer)
-    #
-    #     return Response(serializer.data)
-
-
+        serializers_ = ListUsersSerializer(queryset)
+        return Response(serializers_.data)
 
 
 
 
 
-class UserFilterSet(filters_rest.FilterSet):
-    class Meta:
-        model = CustomCarUser
-        fields = ('id',)
+
+
+
+
+
+
 
 
 
@@ -85,6 +96,10 @@ class UsersListView(api_views.ListAPIView):
         else:
             query=queryset
         return query
+
+
+
+
 
 """ here are the brands logic"""
 class BrandsViewSet(viewsets.ViewSet):

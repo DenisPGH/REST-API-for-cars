@@ -1,20 +1,33 @@
+from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
 from Cars.cars_rest.models import CarBrand, CarModel, UserCar
 from Cars.users_app.models import CustomCarUser
 
 """ users serializers"""
+class ListUsersSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomCarUser
+        fields = ("username", 'first_name', 'last_name',"password")
+
+
 class InfoAllUsersSerializer(serializers.ModelSerializer):
     """show the date from the db"""
     class Meta:
         model = CustomCarUser
         fields = '__all__'
+        #fields = ('username', 'first_name', 'last_name')
 
 class UpdateUsersSerializer(serializers.ModelSerializer):
     """show the date from the db"""
     class Meta:
         model = CustomCarUser
         fields = ('username','first_name','last_name')
+
+
+
+
+
 
 
 """ car brands serializers """
