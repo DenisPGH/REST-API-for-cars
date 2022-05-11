@@ -57,6 +57,14 @@
         </form>
     </div>
 
+    <div>
+        <form class="app" method='get' action="{% url 'create car' %}">
+         <button class="regi">Create new car </button>
+            {% csrf_token %}
+
+        </form>
+    </div>
+
 </header>
 
 <div class="info">

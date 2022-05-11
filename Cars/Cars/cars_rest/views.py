@@ -9,17 +9,15 @@ from django_filters import rest_framework as filters_rest
 from rest_framework import generics as api_views,permissions
 
 from Cars.cars_rest.models import CarBrand, CarModel, UserCar
+from Cars.cars_rest.serializers import InfoAllUsersSerializer, CarBrandSerializer, CarModelSerializer, \
+    CreateCarSerializer, CarSerializer
 from Cars.users_app.models import CustomCarUser
 
-
-class InfoAllUsersSerializer(serializers.ModelSerializer):
-    """show the date from the db"""
-    class Meta:
-        model = CustomCarUser
-        fields = '__all__'
+""" here users logic"""
 
 
-class MyFilterSet(filters_rest.FilterSet):
+
+class UserFilterSet(filters_rest.FilterSet):
     class Meta:
         model = CustomCarUser
         fields = ('id',)
@@ -35,7 +33,7 @@ class UsersListView(api_views.ListAPIView):
     )
     serializer_class = InfoAllUsersSerializer
     filter_backends = [filters_rest.DjangoFilterBackend]
-    filterset_class=MyFilterSet
+    filterset_class=UserFilterSet
     def get_queryset(self,**kwargs):
         query=''
         search_id = self.request.query_params.get('id', None)
@@ -47,18 +45,8 @@ class UsersListView(api_views.ListAPIView):
         return query
 
 """ here are the brands logic"""
-class OnlyNameCarBrandSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CarBrand
-        fields = ( 'name',)
 
 
-class CarBrandSerializer(serializers.ModelSerializer):
-    #name = OnlyNameCarBrandSerializer(many=True)
-
-    class Meta:
-        model = CarBrand
-        fields = ('name',)
 
 class ListBrands(api_views.ListCreateAPIView):
     permission_classes = (
@@ -72,20 +60,8 @@ class SingleCarBrandView(api_views.RetrieveUpdateDestroyAPIView):
     serializer_class = CarBrandSerializer
 
 
-""" cars models"""
+""" here are the models logic"""
 
-# class OnlyNameCarModelsSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = CarModel
-#         fields = ( 'name',)
-
-
-class CarModelSerializer(serializers.ModelSerializer):
-    #name = OnlyNameCarBrandSerializer(many=True)
-
-    class Meta:
-        model = CarModel
-        fields = '__all__'
 
 class ListModels(api_views.ListCreateAPIView):
     permission_classes = (
@@ -99,27 +75,32 @@ class SingleCarModelView(api_views.RetrieveUpdateDestroyAPIView):
     serializer_class = CarModelSerializer
 
 
-""" cars"""
-
-class OnlyNameCarSerializer(serializers.ModelSerializer):
+""" here are the car logic"""
+class CarsFilterSet(filters_rest.FilterSet):
     class Meta:
         model = UserCar
-        fields = '__all__'
+        fields = ('user','car_brand','car_model','first_reg','odometer')
 
 
-class CarSerializer(serializers.ModelSerializer):
-    #name = OnlyNameCarBrandSerializer(many=True)
 
-    class Meta:
-        model = UserCar
-        fields = '__all__'
 
-class ListCars(api_views.ListCreateAPIView):
+class CreateCarView(api_views.CreateAPIView):
+    permission_classes = (
+        permissions.IsAuthenticated,
+    )
+    serializer_class = CreateCarSerializer
+
+
+
+class ListCars(api_views.ListAPIView):
     permission_classes = (
         permissions.IsAuthenticated,
     )
     queryset = UserCar.objects.all()
     serializer_class = CarSerializer
+    filter_backends = [filters_rest.DjangoFilterBackend]
+    filterset_class = CarsFilterSet
+    
 
 
 class SingleCarView(api_views.RetrieveUpdateDestroyAPIView):
