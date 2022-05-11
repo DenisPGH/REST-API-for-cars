@@ -10,8 +10,20 @@ class InfoAllUsersSerializer(serializers.ModelSerializer):
         model = CustomCarUser
         fields = '__all__'
 
+class UpdateUsersSerializer(serializers.ModelSerializer):
+    """show the date from the db"""
+    class Meta:
+        model = CustomCarUser
+        fields = ('username','first_name','last_name')
+
 
 """ car brands serializers """
+class CarBrandListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CarBrand
+        fields = '__all__'
+
+
 class CarBrandSerializer(serializers.ModelSerializer):
     #name = OnlyNameCarBrandSerializer(many=True)
 

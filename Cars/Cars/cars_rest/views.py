@@ -1,6 +1,7 @@
 from django.shortcuts import render
 
-from rest_framework import permissions, viewsets
+from rest_framework import permissions, viewsets, status
+from rest_framework.decorators import action
 from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -11,16 +12,15 @@ from django.shortcuts import get_object_or_404
 
 from Cars.cars_rest.models import CarBrand, CarModel, UserCar
 from Cars.cars_rest.serializers import InfoAllUsersSerializer, CarBrandSerializer, CarModelSerializer, \
-    CreateCarSerializer, CarSerializer
+    CreateCarSerializer, CarSerializer, CarBrandListSerializer, UpdateUsersSerializer
 from Cars.users_app.models import CustomCarUser
 
 """ here users logic"""
 class UserViewSet(viewsets.ViewSet):
-    def list(self, request):
-        queryset = CustomCarUser.objects.all()
-        serializer = InfoAllUsersSerializer(queryset, many=True)
+    def update(self, request, pk=None):
+        user = CustomCarUser.objects.get(pk=pk)
+        serializer = UpdateUsersSerializer(user)
         return Response(serializer.data)
-
 
 
 class UserFilterSet(filters_rest.FilterSet):
@@ -54,27 +54,14 @@ class UsersListView(api_views.ListAPIView):
 class BrandsViewSet(viewsets.ViewSet):
     def list(self, request):
         queryset = CarBrand.objects.all()
-        serializer = CarBrandSerializer(queryset, many=True)
+        serializer = CarBrandListSerializer(queryset, many=True)
         return Response(serializer.data)
 
-    def retrieve(self, request, pk=None):
-        queryset = CarBrand.objects.all()
+    def update(self, request, pk=None):
         brand = CarBrand.objects.get(pk=pk)
         serializer = CarBrandSerializer(brand)
         return Response(serializer.data)
 
-
-
-class ListBrands(api_views.ListCreateAPIView):
-    permission_classes = (
-        permissions.IsAuthenticated,
-    )
-    queryset = CarBrand.objects.all()
-    serializer_class = CarBrandSerializer
-
-class SingleCarBrandView(api_views.RetrieveUpdateDestroyAPIView):
-    queryset = CarBrand.objects.all()
-    serializer_class = CarBrandSerializer
 
 
 """ here are the models logic"""
