@@ -8,7 +8,9 @@ from Cars.users_app.models import CustomCarUser
 class ListUsersSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomCarUser
-        fields = ("username", 'first_name', 'last_name',"password")
+        fields = '__all__'
+        #fields = ('username', 'first_name', 'last_name',"password")
+
 
 
 class InfoAllUsersSerializer(serializers.ModelSerializer):

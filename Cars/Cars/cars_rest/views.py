@@ -47,6 +47,13 @@ class UserViewSet(viewsets.ModelViewSet):
         serializer = UpdateUsersSerializer(user)
         return Response(serializer.data)
 
+    def destroy(self, request,pk=None, *args, **kwargs):
+        user = CustomCarUser.objects.get(pk=pk)
+        user.delete()
+        #serializer = UpdateUsersSerializer(user)
+        return Response({user.username:'deleted'})
+
+
     # def get_queryset(self,*args,**kwargs):
     #     # query=''
     #     # search_id = self.request.query_params.get('id', None)
@@ -58,11 +65,16 @@ class UserViewSet(viewsets.ModelViewSet):
     #     serializers=InfoAllUsersSerializer(queryset)
     #     return Response(serializers.data)
 
-    def list(self, request, *args, **kwargs):
-        queryset = CustomCarUser.objects.all()
+    # def list(self, request, *args, **kwargs):
+    #     queryset = CustomCarUser.objects.get(id=1)
+    #     serializers_ = ListUsersSerializer(queryset)
+    #     return Response(serializers_.data)
 
-        serializers_ = ListUsersSerializer(queryset)
-        return Response(serializers_.data)
+    # def get_queryset(self):
+    #     user = self.request.user
+    #     if user.is_superuser:
+    #         return CustomCarUser.objects.all()
+    #     return CustomCarUser.objects.filter(username=user.username)
 
 
 

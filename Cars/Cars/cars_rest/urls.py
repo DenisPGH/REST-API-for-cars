@@ -4,8 +4,9 @@ from Cars.cars_rest.views import UsersListView, ListModels, ListCars, SingleCarV
     CreateCarView, BrandsViewSet, UserViewSet
 
 urlpatterns=(
-    path('user/',UserViewSet.as_view({'get':'list'}),name="restusers"),
-    path('user/<int:pk>/',UserViewSet.as_view({'get':'show','put':'put'}),name="edit user"),
+    #path('user/',UserViewSet.as_view({'get':'list'}),name="restusers"),
+    path('user/',UsersListView.as_view(),name="restusers"),
+    path('user/<int:pk>/',UserViewSet.as_view({'get':'show','put':'put','delete':'destroy'}),name="edit user"),
     path('brand/',BrandsViewSet.as_view({'get': 'list'}),name="brands"),
     path('brand/<int:pk>/', BrandsViewSet.as_view({'get': 'update'}), name='single brand'),
     path('model/',ListModels.as_view(),name="models"),
