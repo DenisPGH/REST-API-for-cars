@@ -1,12 +1,13 @@
 from django.shortcuts import render
 
-from rest_framework import permissions
+from rest_framework import permissions, viewsets
 from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import serializers
 from django_filters import rest_framework as filters_rest
 from rest_framework import generics as api_views,permissions
+from django.shortcuts import get_object_or_404
 
 from Cars.cars_rest.models import CarBrand, CarModel, UserCar
 from Cars.cars_rest.serializers import InfoAllUsersSerializer, CarBrandSerializer, CarModelSerializer, \
@@ -14,6 +15,11 @@ from Cars.cars_rest.serializers import InfoAllUsersSerializer, CarBrandSerialize
 from Cars.users_app.models import CustomCarUser
 
 """ here users logic"""
+class UserViewSet(viewsets.ViewSet):
+    def list(self, request):
+        queryset = CustomCarUser.objects.all()
+        serializer = InfoAllUsersSerializer(queryset, many=True)
+        return Response(serializer.data)
 
 
 
@@ -45,6 +51,17 @@ class UsersListView(api_views.ListAPIView):
         return query
 
 """ here are the brands logic"""
+class BrandsViewSet(viewsets.ViewSet):
+    def list(self, request):
+        queryset = CarBrand.objects.all()
+        serializer = CarBrandSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    def retrieve(self, request, pk=None):
+        queryset = CarBrand.objects.all()
+        brand = CarBrand.objects.get(pk=pk)
+        serializer = CarBrandSerializer(brand)
+        return Response(serializer.data)
 
 
 
@@ -100,7 +117,7 @@ class ListCars(api_views.ListAPIView):
     serializer_class = CarSerializer
     filter_backends = [filters_rest.DjangoFilterBackend]
     filterset_class = CarsFilterSet
-    
+
 
 
 class SingleCarView(api_views.RetrieveUpdateDestroyAPIView):

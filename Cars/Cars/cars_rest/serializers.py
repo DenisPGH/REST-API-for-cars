@@ -22,8 +22,6 @@ class CarBrandSerializer(serializers.ModelSerializer):
 
 """ car models serializers """
 class CarModelSerializer(serializers.ModelSerializer):
-    #name = OnlyNameCarBrandSerializer(many=True)
-
     class Meta:
         model = CarModel
         fields = '__all__'
