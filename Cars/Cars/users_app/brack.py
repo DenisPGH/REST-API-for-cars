@@ -186,3 +186,16 @@
 #         permissions.IsAuthenticated,
 #     )
 #     serializer_class = CreateCarSerializer
+##########################################
+# def get_queryset(self, **kwargs):
+#     query = ''
+#     search_id = self.request.query_params.get('id', None)
+#     search_hometown = self.request.query_params.get('hometown', None)
+#     queryset = CustomCarUser.objects.all()
+#     if search_id:
+#         query = queryset.filter(id=search_id)
+#     elif search_hometown:
+#         query = queryset.filter(hometown=search_hometown)
+#     else:
+#         query = queryset
+#     return query

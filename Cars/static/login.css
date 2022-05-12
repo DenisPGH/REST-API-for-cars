@@ -3,6 +3,8 @@ body{
 }
 table, th, td {
   border: 1px solid;
+    border-color: greenyellow;
+    background: white;
 }
 
 div.info{

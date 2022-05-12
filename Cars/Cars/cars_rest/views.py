@@ -14,7 +14,7 @@ from Cars.users_app.models import CustomCarUser
 class UserFilterSet(filters_rest.FilterSet):
     class Meta:
         model = CustomCarUser
-        fields = ('id',)
+        fields = ('id','hometown')
 
 class UserViewSet(viewsets.ModelViewSet):
     """ update,delete for choosed user"""
@@ -64,15 +64,7 @@ class UsersListView(api_views.ListAPIView):
     serializer_class = InfoAllUsersSerializer
     filter_backends = [filters_rest.DjangoFilterBackend]
     filterset_class=UserFilterSet
-    def get_queryset(self,**kwargs):
-        query=''
-        search_id = self.request.query_params.get('id', None)
-        queryset=CustomCarUser.objects.all()
-        if search_id:
-            query=queryset.filter(id=search_id)
-        else:
-            query=queryset
-        return query
+    queryset = CustomCarUser.objects.all()
 
 
 
@@ -136,6 +128,10 @@ class ListModels(api_views.ListCreateAPIView):
     serializer_class = CarModelSerializer
 
 class SingleCarModelView(api_views.RetrieveUpdateDestroyAPIView):
+    permission_classes = (
+        permissions.IsAuthenticated,
+        permissions.BasePermission
+    )
     """ singe model details, update and delete"""
     queryset = CarModel.objects.all()
     serializer_class = CarModelSerializer
