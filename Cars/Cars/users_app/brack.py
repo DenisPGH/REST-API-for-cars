@@ -227,3 +227,7 @@
 #    path(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 #    ...
 # ]
+####### put in serializer to show the name
+# car_brand = serializers.CharField(source='car_brand.name')
+# car_model = serializers.CharField(source='car_model.name')
+# user = serializers.CharField(source='user.username')

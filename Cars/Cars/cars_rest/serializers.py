@@ -34,7 +34,7 @@ class CarBrandListSerializer(serializers.ModelSerializer):
             name=validated_data['name'],
         )
         return new_brand
-    
+
     class Meta:
         model = CarBrand
         fields = ('name',)
@@ -48,13 +48,11 @@ class CarBrandSerializer(serializers.ModelSerializer):
 
 """ car models serializers """
 class CarModelSerializer(serializers.ModelSerializer):
-    car_brand = serializers.CharField(source='car_brand.name')
     class Meta:
         model = CarModel
         fields = '__all__'
 
 class UpdateCarModelSerializer(serializers.ModelSerializer):
-    car_brand = serializers.CharField(source='car_brand.name')
     class Meta:
         model = CarModel
         fields = ('id','name','car_brand')
@@ -63,9 +61,6 @@ class UpdateCarModelSerializer(serializers.ModelSerializer):
 
 """ cars serializers """
 class UpdateCarSerializer(serializers.ModelSerializer):
-    car_brand = serializers.CharField(source='car_brand.name')
-    car_model = serializers.CharField(source='car_model.name')
-    user = serializers.CharField(source='user.username')
     class Meta:
         model = UserCar
         fields=('user','car_brand','car_model','first_reg','odometer')
@@ -73,18 +68,12 @@ class UpdateCarSerializer(serializers.ModelSerializer):
 
 
 class CarSerializer(serializers.ModelSerializer):
-    car_brand = serializers.CharField(source='car_brand.name')
-    car_model = serializers.CharField(source='car_model.name')
-    user = serializers.CharField(source='user.username')
     class Meta:
         model = UserCar
         fields=('user','car_brand','car_model','first_reg','odometer')
 
 
 class CreateCarSerializer(serializers.ModelSerializer):
-    car_brand = serializers.CharField(source='car_brand.name')
-    car_model = serializers.CharField(source='car_model.name')
-    user = serializers.CharField(source='user.username')
     class Meta:
         model = UserCar
         fields = ('user','car_brand','car_model','first_reg','odometer')
