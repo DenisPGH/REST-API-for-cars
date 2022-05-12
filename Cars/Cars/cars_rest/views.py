@@ -49,7 +49,7 @@ class UserViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
     def destroy(self, request,pk=None, *args, **kwargs):
-        user = CustomCarUser.objects.get(pk=pk).filter(is_deleted=False)
+        user = CustomCarUser.objects.get(pk=pk)
         user.delete()
         return Response({f"{user.username}":'deleted'})
 
@@ -108,7 +108,7 @@ class SingleBrandViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
     def destroy(self, request, pk=None, *args, **kwargs):
-        brand=CarBrand.objects.get(pk=pk).filter(is_deleted=False)
+        brand=CarBrand.objects.get(pk=pk)
         brand.delete()
         return Response({f"{brand.name}": 'deleted'})
 
@@ -176,7 +176,6 @@ class SingleCarViewSet(viewsets.ModelViewSet):
         car.save()
         serializer =UpdateCarSerializer(car)
         return Response(serializer.data)
-
     def destroy(self, request,pk=None, *args, **kwargs):
         car = UserCar.objects.get(pk=pk)
         car.delete()
