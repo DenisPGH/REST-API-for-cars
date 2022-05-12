@@ -57,13 +57,7 @@
         </form>
     </div>
 
-    <div>
-        <form class="app" method='get' action="{% url 'create car' %}">
-         <button class="regi">Create new car </button>
-            {% csrf_token %}
 
-        </form>
-    </div>
 
 </header>
 
@@ -77,6 +71,7 @@
         <th>Brand</th>
         <th>odometer</th>
         <th>Year</th>
+        <th>Is deleted</th>
         <th>edit</th>
 
     </tr>
@@ -88,6 +83,7 @@
             <td>{{ each.car_brand }}</td>
             <td>{{ each.odometer }}</td>
             <td>{{ each.first_reg }}</td>
+            <td>{{ each.is_deleted }}</td>
             <td>
                 <form class="app" method='get' action="{% url 'single car' each.id %}">
          <button class="regi">edit</button>

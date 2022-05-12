@@ -1,37 +1,30 @@
-from django.shortcuts import render
 
-from rest_framework import permissions, viewsets, status
-from rest_framework.decorators import action
-from rest_framework.renderers import TemplateHTMLRenderer
+from rest_framework import  viewsets
 from rest_framework.response import Response
-from rest_framework.views import APIView
-from rest_framework import serializers
 from django_filters import rest_framework as filters_rest
 from rest_framework import generics as api_views,permissions
-from django.shortcuts import get_object_or_404
 
 from Cars.cars_rest.models import CarBrand, CarModel, UserCar
 from Cars.cars_rest.serializers import InfoAllUsersSerializer, CarBrandSerializer, CarModelSerializer, \
-    CreateCarSerializer, CarSerializer, CarBrandListSerializer, UpdateUsersSerializer, ListUsersSerializer, \
+    CreateCarSerializer, CarSerializer, CarBrandListSerializer, UpdateUsersSerializer,  \
     UpdateCarSerializer
 from Cars.users_app.models import CustomCarUser
 
-""" here users logic"""
+""" ==============here users logic==============================="""
 class UserFilterSet(filters_rest.FilterSet):
     class Meta:
         model = CustomCarUser
         fields = ('id',)
 
-
 class UserViewSet(viewsets.ModelViewSet):
+    """ update,delete for choosed user"""
     permission_classes = (
         permissions.IsAuthenticated,
         permissions.BasePermission
     )
     queryset = CustomCarUser.objects.all()
     serializer_class = UpdateUsersSerializer
-    # filter_backends = [filters_rest.DjangoFilterBackend]
-    # filterset_class = UserFilterSet
+
     def show(self, request,pk=None, *args, **kwargs):
         user = CustomCarUser.objects.get(pk=pk)
         if not user.is_deleted:
@@ -82,41 +75,73 @@ class UsersListView(api_views.ListAPIView):
 
 
 
-""" here are the brands logic"""
-class BrandsViewSet(viewsets.ViewSet):
-    def list(self, request):
-        queryset = CarBrand.objects.all()
-        serializer = CarBrandListSerializer(queryset, many=True)
-        return Response(serializer.data)
+"""===== here are the brands logic================================"""
+class BrandsViewSet(viewsets.ModelViewSet):
+    """show all brands names and create new brand"""
+    permission_classes = (
+        permissions.IsAuthenticated,
+        permissions.BasePermission
+    )
+    queryset = CarBrand.objects.all()
+    serializer_class = CarBrandListSerializer
 
 
-    def update(self, request, pk=None):
+class SingleBrandViewSet(viewsets.ModelViewSet):
+    """show details for one brand, update, delete"""
+    permission_classes = (
+        permissions.IsAuthenticated,
+        permissions.BasePermission
+    )
+    queryset = CarBrand.objects.all()
+    serializer_class = CarBrandSerializer
+
+    def show(self, request, pk=None, *args, **kwargs):
         brand = CarBrand.objects.get(pk=pk)
+        if not brand.is_deleted:
+            serializer = CarBrandSerializer(brand)
+            return Response(serializer.data)
+        else:
+            return Response({f"Brand with name: {brand.name}": f"deleted at {brand.deleted_at}"})
+
+    def put(self, request, pk=None):
+        brand = CarBrand.objects.get(pk=pk)
+        data = request.data
+        brand.name = data['name']
+        brand.save()
         serializer = CarBrandSerializer(brand)
         return Response(serializer.data)
 
+    def destroy(self, request, pk=None, *args, **kwargs):
+        brand=CarBrand.objects.get(pk=pk).filter(is_deleted=False)
+        brand.delete()
+        return Response({brand.name: 'deleted'})
 
 
-""" here are the models logic"""
+
+
+
+
+"""=================== here are the models logic==========================="""
 
 
 class ListModels(api_views.ListCreateAPIView):
+    """ show all models, can create new model"""
     permission_classes = (
         permissions.IsAuthenticated,
     )
     queryset = CarModel.objects.all()
     serializer_class = CarModelSerializer
 
-
-
-
-
-""" here are the car logic"""
 class SingleCarModelView(api_views.RetrieveUpdateDestroyAPIView):
+    """ singe model details, update and delete"""
     queryset = CarModel.objects.all()
     serializer_class = CarModelSerializer
 
 
+
+
+
+"""=================== here are the car logic============================"""
 
 class CarsFilterSet(filters_rest.FilterSet):
     class Meta:
@@ -124,7 +149,8 @@ class CarsFilterSet(filters_rest.FilterSet):
         fields = ('user','car_brand','car_model','first_reg','odometer')
 
 
-class CarViewSet(viewsets.ModelViewSet):
+class SingleCarViewSet(viewsets.ModelViewSet):
+    """show details, update and delete each single car object"""
     permission_classes = (
         permissions.IsAuthenticated,
         permissions.BasePermission
@@ -144,8 +170,8 @@ class CarViewSet(viewsets.ModelViewSet):
         car = UserCar.objects.get(pk=pk)
         data = request.data
         car.car_model=CarModel.objects.get(id=data['car_model'])
-        car.car_brand=CarBrand.objects.get(id=data['car_model'])
-        car.first_reg=data['car_model']
+        car.car_brand=CarBrand.objects.get(id=data['car_brand'])
+        car.first_reg=data['first_reg']
         car.odometer=data['odometer']
         car.save()
         serializer =UpdateCarSerializer(car)
@@ -156,28 +182,21 @@ class CarViewSet(viewsets.ModelViewSet):
         car.delete()
         return Response({car.car_model:'deleted'})
 
-class CreateCarView(api_views.CreateAPIView):
-    permission_classes = (
-        permissions.IsAuthenticated,
-    )
-    serializer_class = CreateCarSerializer
 
 
-
-class ListCars(api_views.ListAPIView):
+class ListCars(api_views.ListCreateAPIView):
+    """ show all cars, can create new one"""
     permission_classes = (
         permissions.IsAuthenticated,
     )
     queryset = UserCar.objects.all()
-    serializer_class = CarSerializer
+    serializer_class = CreateCarSerializer
     filter_backends = [filters_rest.DjangoFilterBackend]
     filterset_class = CarsFilterSet
 
 
 
-class SingleCarView(api_views.RetrieveUpdateDestroyAPIView):
-    queryset = UserCar.objects.all()
-    serializer_class = CarSerializer
+
 
 
 

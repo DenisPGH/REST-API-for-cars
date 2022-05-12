@@ -1,7 +1,6 @@
-from django.shortcuts import render
+
 from django.urls import reverse_lazy
 from django.views import generic as views
-# Create your views here.
 from Cars.cars_rest.models import UserCar, CarModel, CarBrand
 from Cars.users_app.models import CustomCarUser
 from django.contrib.auth.views import LoginView,LogoutView
@@ -31,7 +30,7 @@ class RegistrationView(views.CreateView):
     success_url = reverse_lazy('loginJ')
 
 
-class RestTest(views.TemplateView,auth_mixin.LoginRequiredMixin):
+class MainPageView(views.TemplateView, auth_mixin.LoginRequiredMixin):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['cars'] = UserCar.objects.all()

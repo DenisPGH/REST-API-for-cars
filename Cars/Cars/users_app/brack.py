@@ -151,3 +151,38 @@
 #     if user.is_superuser:
 #         return CustomCarUser.objects.all()
 #     return CustomCarUser.objects.filter(username=user.username)
+
+# class SingleCarModelView(api_views.RetrieveUpdateDestroyAPIView):
+#     queryset = CarModel.objects.all()
+#     serializer_class = CarModelSerializer
+
+# class SingleCarView(api_views.RetrieveUpdateDestroyAPIView):
+#     queryset = UserCar.objects.all()
+#     serializer_class = CarSerializer
+
+# <div>
+#         <form class="app" method='post' action="{% url 'create car' %}">
+#          <button class="regi">Create new car </button>
+#             {% csrf_token %}
+#
+#         </form>
+#     </div>
+
+# def list(self, request):
+    #     queryset = CarBrand.objects.all()
+    #     serializer = CarBrandListSerializer(queryset, many=True)
+    #     return Response(serializer.data)
+    #
+    # def create(self,request):
+    #     pass
+
+#class ListUsersSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = CustomCarUser
+#         fields = '__all__'
+
+# class CreateCarView(api_views.CreateAPIView):
+#     permission_classes = (
+#         permissions.IsAuthenticated,
+#     )
+#     serializer_class = CreateCarSerializer

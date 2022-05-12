@@ -1,24 +1,18 @@
-from django.contrib.auth import get_user_model
-from rest_framework import serializers
 
+from rest_framework import serializers
 from Cars.cars_rest.models import CarBrand, CarModel, UserCar
 from Cars.users_app.models import CustomCarUser
 
+
+
+
 """ users serializers"""
-class ListUsersSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CustomCarUser
-        fields = '__all__'
-        #fields = ('username', 'first_name', 'last_name',"password")
-
-
 
 class InfoAllUsersSerializer(serializers.ModelSerializer):
-    """show the date from the db"""
     class Meta:
         model = CustomCarUser
         fields = '__all__'
-        #fields = ('username', 'first_name', 'last_name')
+
 
 class UpdateUsersSerializer(serializers.ModelSerializer):
     """show the date from the db"""
@@ -34,14 +28,18 @@ class UpdateUsersSerializer(serializers.ModelSerializer):
 
 """ car brands serializers """
 class CarBrandListSerializer(serializers.ModelSerializer):
+    """serializer for create and list all brands"""
+    def create(self, validated_data):
+        new_brand = CarBrand.objects.create(
+            name=validated_data['name'],
+        )
+        return new_brand
     class Meta:
         model = CarBrand
-        fields = '__all__'
+        fields = ('name',)
 
 
 class CarBrandSerializer(serializers.ModelSerializer):
-    #name = OnlyNameCarBrandSerializer(many=True)
-
     class Meta:
         model = CarBrand
         fields = ('name',)
@@ -67,6 +65,7 @@ class CarSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserCar
         fields=('car_brand','car_model','first_reg','odometer')
+
 
 class CreateCarSerializer(serializers.ModelSerializer):
     class Meta:
