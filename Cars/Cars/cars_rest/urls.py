@@ -1,7 +1,7 @@
 from django.urls import path
 
 from Cars.cars_rest.views import UsersListView, ListModels, ListCars, SingleCarView, SingleCarModelView, \
-    CreateCarView, BrandsViewSet, UserViewSet
+    CreateCarView, BrandsViewSet, UserViewSet, CarViewSet
 
 urlpatterns=(
     #path('user/',UserViewSet.as_view({'get':'list'}),name="restusers"),
@@ -12,7 +12,7 @@ urlpatterns=(
     path('model/',ListModels.as_view(),name="models"),
     path('model/<int:pk>/', SingleCarModelView.as_view(), name='single model'),
     path('car/',ListCars.as_view(),name="cars"),
-    path('car/<int:pk>/', SingleCarView.as_view(), name='single car'),
+    path('car/<int:pk>/', CarViewSet.as_view({'get':'show','put':'put','delete':'destroy'}), name='single car'),
     path('create_car/', CreateCarView.as_view(), name='create car'),
 
 )

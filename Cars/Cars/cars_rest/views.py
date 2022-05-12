@@ -12,7 +12,8 @@ from django.shortcuts import get_object_or_404
 
 from Cars.cars_rest.models import CarBrand, CarModel, UserCar
 from Cars.cars_rest.serializers import InfoAllUsersSerializer, CarBrandSerializer, CarModelSerializer, \
-    CreateCarSerializer, CarSerializer, CarBrandListSerializer, UpdateUsersSerializer, ListUsersSerializer
+    CreateCarSerializer, CarSerializer, CarBrandListSerializer, UpdateUsersSerializer, ListUsersSerializer, \
+    UpdateCarSerializer
 from Cars.users_app.models import CustomCarUser
 
 """ here users logic"""
@@ -33,8 +34,11 @@ class UserViewSet(viewsets.ModelViewSet):
     # filterset_class = UserFilterSet
     def show(self, request,pk=None, *args, **kwargs):
         user = CustomCarUser.objects.get(pk=pk)
-        serializer = UpdateUsersSerializer(user)
-        return Response(serializer.data)
+        if not user.is_deleted:
+            serializer = UpdateUsersSerializer(user)
+            return Response(serializer.data)
+        else:
+            return Response({f"Username: {user.username}": f"deleted at {user.deleted_at}"})
 
 
     def put(self, request, pk=None):
@@ -48,44 +52,9 @@ class UserViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
     def destroy(self, request,pk=None, *args, **kwargs):
-        user = CustomCarUser.objects.get(pk=pk)
+        user = CustomCarUser.objects.get(pk=pk).filter(is_deleted=False)
         user.delete()
-        #serializer = UpdateUsersSerializer(user)
         return Response({user.username:'deleted'})
-
-
-    # def get_queryset(self,*args,**kwargs):
-    #     # query=''
-    #     # search_id = self.request.query_params.get('id', None)
-    #     queryset=CustomCarUser.objects.all()
-    #     # if search_id:
-    #     #     query=queryset.filter(id=search_id)
-    #     # else:
-    #     #     query=queryset
-    #     serializers=InfoAllUsersSerializer(queryset)
-    #     return Response(serializers.data)
-
-    # def list(self, request, *args, **kwargs):
-    #     queryset = CustomCarUser.objects.get(id=1)
-    #     serializers_ = ListUsersSerializer(queryset)
-    #     return Response(serializers_.data)
-
-    # def get_queryset(self):
-    #     user = self.request.user
-    #     if user.is_superuser:
-    #         return CustomCarUser.objects.all()
-    #     return CustomCarUser.objects.filter(username=user.username)
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -138,19 +107,54 @@ class ListModels(api_views.ListCreateAPIView):
     queryset = CarModel.objects.all()
     serializer_class = CarModelSerializer
 
+
+
+
+
+""" here are the car logic"""
 class SingleCarModelView(api_views.RetrieveUpdateDestroyAPIView):
     queryset = CarModel.objects.all()
     serializer_class = CarModelSerializer
 
 
-""" here are the car logic"""
+
 class CarsFilterSet(filters_rest.FilterSet):
     class Meta:
         model = UserCar
         fields = ('user','car_brand','car_model','first_reg','odometer')
 
 
+class CarViewSet(viewsets.ModelViewSet):
+    permission_classes = (
+        permissions.IsAuthenticated,
+        permissions.BasePermission
+    )
+    queryset =  UserCar.objects.all()
+    serializer_class = CarSerializer
+    def show(self, request,pk=None, *args, **kwargs):
+        car = UserCar.objects.get(pk=pk)
+        if not car.is_deleted:
+            serializer = UpdateCarSerializer(car)
+            return Response(serializer.data)
+        else:
+            return Response({f"Car: {car.car_model}": f"deleted at {car.deleted_at}"})
 
+
+    def put(self, request, pk=None):
+        car = UserCar.objects.get(pk=pk)
+        data = request.data
+        car.car_model=CarModel.objects.get(id=data['car_model'])
+        car.car_brand=CarBrand.objects.get(id=data['car_model'])
+        car.first_reg=data['car_model']
+        car.odometer=data['odometer']
+        car.save()
+        serializer =UpdateCarSerializer(car)
+        return Response(serializer.data)
+
+    def destroy(self, request,pk=None, *args, **kwargs):
+        car = UserCar.objects.get(pk=pk)
+        car.delete()
+        return Response({car.car_model:'deleted'})
 
 class CreateCarView(api_views.CreateAPIView):
     permission_classes = (

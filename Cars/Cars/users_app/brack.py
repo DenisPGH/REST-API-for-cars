@@ -128,3 +128,26 @@
     #     else:
     #         query=queryset
     #     return query
+
+
+# def get_queryset(self,*args,**kwargs):
+#     # query=''
+#     # search_id = self.request.query_params.get('id', None)
+#     queryset=CustomCarUser.objects.all()
+#     # if search_id:
+#     #     query=queryset.filter(id=search_id)
+#     # else:
+#     #     query=queryset
+#     serializers=InfoAllUsersSerializer(queryset)
+#     return Response(serializers.data)
+
+# def list(self, request, *args, **kwargs):
+#     queryset = CustomCarUser.objects.get(id=1)
+#     serializers_ = ListUsersSerializer(queryset)
+#     return Response(serializers_.data)
+
+# def get_queryset(self):
+#     user = self.request.user
+#     if user.is_superuser:
+#         return CustomCarUser.objects.all()
+#     return CustomCarUser.objects.filter(username=user.username)

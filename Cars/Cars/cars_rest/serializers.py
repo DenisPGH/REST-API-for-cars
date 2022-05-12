@@ -56,10 +56,17 @@ class CarModelSerializer(serializers.ModelSerializer):
 
 
 """ cars serializers """
+class UpdateCarSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserCar
+        fields=('user','car_brand','car_model','first_reg','odometer')
+
+
+
 class CarSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserCar
-        fields = '__all__'
+        fields=('car_brand','car_model','first_reg','odometer')
 
 class CreateCarSerializer(serializers.ModelSerializer):
     class Meta:
