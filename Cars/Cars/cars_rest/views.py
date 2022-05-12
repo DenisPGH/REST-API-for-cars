@@ -10,14 +10,15 @@ from Cars.cars_rest.serializers import InfoAllUsersSerializer, CarBrandSerialize
     UpdateCarSerializer
 from Cars.users_app.models import CustomCarUser
 
-""" ==============here users logic==============================="""
+""" ==============here USER logic==============================="""
 class UserFilterSet(filters_rest.FilterSet):
+    """you can filter the users, by iD or hometown"""
     class Meta:
         model = CustomCarUser
         fields = ('id','hometown')
 
 class UserViewSet(viewsets.ModelViewSet):
-    """ update,delete for choosed user"""
+    """ show details,update,delete for one user"""
     permission_classes = (
         permissions.IsAuthenticated,
         permissions.BasePermission
@@ -70,7 +71,7 @@ class UsersListView(api_views.ListAPIView):
 
 
 
-"""===== here are the brands logic================================"""
+"""===== here are the BRAND logic================================"""
 class BrandsViewSet(viewsets.ModelViewSet):
     """show all brands names and create new brand"""
     permission_classes = (
@@ -116,7 +117,7 @@ class SingleBrandViewSet(viewsets.ModelViewSet):
 
 
 
-"""=================== here are the models logic==========================="""
+"""=================== here are the MODELCAR logic==========================="""
 
 
 class ListModels(api_views.ListCreateAPIView):
@@ -140,7 +141,7 @@ class SingleCarModelView(api_views.RetrieveUpdateDestroyAPIView):
 
 
 
-"""=================== here are the car logic============================"""
+"""=================== here are the CAR logic============================"""
 
 class CarsFilterSet(filters_rest.FilterSet):
     class Meta:

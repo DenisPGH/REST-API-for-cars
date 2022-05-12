@@ -25,7 +25,8 @@ schema_view = get_schema_view(
    openapi.Info(
       title="API Cars",
       default_version='v1',
-      description="This is my test drf-yasg part",
+      description="API-cars-view-scheme. You can check all methods(request and response)"
+                  ", if they work properly.",
       #terms_of_service="https://www.google.com/policies/terms/",
       # contact=openapi.Contact(email="contact@snippets.local"),
       # license=openapi.License(name="BSD License"),

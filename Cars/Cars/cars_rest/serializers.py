@@ -49,7 +49,7 @@ class CarBrandSerializer(serializers.ModelSerializer):
 class CarModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = CarModel
-        fields = '__all__'
+        fields = ('id','name','car_brand')
 
 
 
