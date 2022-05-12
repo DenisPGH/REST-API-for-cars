@@ -31,7 +31,7 @@ class UserViewSet(viewsets.ModelViewSet):
             serializer = UpdateUsersSerializer(user)
             return Response(serializer.data)
         else:
-            return Response({f"Username: {user.username}": f"deleted at {user.deleted_at}"})
+            return Response({f"Username: {user.username}": f"was deleted at {user.deleted_at}"})
 
 
     def put(self, request, pk=None):
@@ -50,7 +50,7 @@ class UserViewSet(viewsets.ModelViewSet):
     def destroy(self, request,pk=None, *args, **kwargs):
         user = CustomCarUser.objects.get(pk=pk).filter(is_deleted=False)
         user.delete()
-        return Response({user.username:'deleted'})
+        return Response({f"{user.username}":'deleted'})
 
 
 
@@ -109,7 +109,7 @@ class SingleBrandViewSet(viewsets.ModelViewSet):
     def destroy(self, request, pk=None, *args, **kwargs):
         brand=CarBrand.objects.get(pk=pk).filter(is_deleted=False)
         brand.delete()
-        return Response({brand.name: 'deleted'})
+        return Response({f"{brand.name}": 'deleted'})
 
 
 
@@ -162,7 +162,7 @@ class SingleCarViewSet(viewsets.ModelViewSet):
             serializer = UpdateCarSerializer(car)
             return Response(serializer.data)
         else:
-            return Response({f"Car: {car.car_model}": f"deleted at {car.deleted_at}"})
+            return Response({f"Car: {car.car_model}": f"was deleted at {car.deleted_at}"})
 
 
     def put(self, request, pk=None):
@@ -179,7 +179,7 @@ class SingleCarViewSet(viewsets.ModelViewSet):
     def destroy(self, request,pk=None, *args, **kwargs):
         car = UserCar.objects.get(pk=pk)
         car.delete()
-        return Response({car.car_model:'deleted'})
+        return Response({f"{car.car_model}":'deleted'})
 
 
 
