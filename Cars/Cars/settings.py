@@ -48,6 +48,7 @@ REST_APPS=[
 OTHER_APPS=[
     'Cars.users_app',
     'Cars.cars_rest',
+    'drf_yasg',
 
 ]
 
