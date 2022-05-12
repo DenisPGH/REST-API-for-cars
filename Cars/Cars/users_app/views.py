@@ -16,6 +16,8 @@ class MyLoginView(LoginView,auth_mixin.LoginRequiredMixin):
 
 
 
+
+
 class LogoutPageView(LogoutView):
     """ by pressing logout, redirect to fitst page"""
     def get_success_url(self):
@@ -45,6 +47,13 @@ class RegistrationView(views.CreateView):
 
 
 class MainPageView(views.TemplateView, auth_mixin.LoginRequiredMixin):
+
+    """ overwrite dispatch for is_deleted users not permission"""
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated or request.user.is_deleted:
+            return self.handle_no_permission()
+        return super().dispatch(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['cars'] = UserCar.objects.all()
