@@ -6,6 +6,7 @@ charset-normalizer==2.0.12
 coreapi==2.3.3
 coreschema==0.0.4
 Django==4.0.4
+django-bootstrap-datepicker-plus==4.0.0
 django-bootstrap4==22.1
 django-filter==21.1
 django-rest-swagger==2.2.0

@@ -50,6 +50,7 @@ OTHER_APPS=[
     'Cars.cars_rest',
     'drf_yasg',
     'rest_framework_swagger',
+    'bootstrap_datepicker_plus',
 
 ]
 
