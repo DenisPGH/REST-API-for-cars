@@ -49,6 +49,7 @@ OTHER_APPS=[
     'Cars.users_app',
     'Cars.cars_rest',
     'drf_yasg',
+    'rest_framework_swagger',
 
 ]
 
