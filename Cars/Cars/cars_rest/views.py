@@ -6,8 +6,8 @@ from rest_framework import generics as api_views,permissions
 
 from Cars.cars_rest.models import CarBrand, CarModel, UserCar
 from Cars.cars_rest.serializers import InfoAllUsersSerializer, CarBrandSerializer, CarModelSerializer, \
-    CreateCarSerializer, CarSerializer, CarBrandListSerializer, UpdateUsersSerializer,  \
-    UpdateCarSerializer
+    CreateCarSerializer, CarSerializer, CarBrandListSerializer, UpdateUsersSerializer, \
+    UpdateCarSerializer, UpdateCarModelSerializer
 from Cars.users_app.models import CustomCarUser
 
 """ ==============here USER logic==============================="""
@@ -129,13 +129,13 @@ class ListModels(api_views.ListCreateAPIView):
     serializer_class = CarModelSerializer
 
 class SingleCarModelView(api_views.RetrieveUpdateDestroyAPIView):
+    """ singe model details, update and delete"""
     permission_classes = (
         permissions.IsAuthenticated,
         permissions.BasePermission
     )
-    """ singe model details, update and delete"""
     queryset = CarModel.objects.all()
-    serializer_class = CarModelSerializer
+    serializer_class = UpdateCarModelSerializer
 
 
 
