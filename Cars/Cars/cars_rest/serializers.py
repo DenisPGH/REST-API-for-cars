@@ -18,7 +18,7 @@ class UpdateUsersSerializer(serializers.ModelSerializer):
     """show the date from the db"""
     class Meta:
         model = CustomCarUser
-        fields = ('username','first_name','last_name')
+        fields = ('username','first_name','last_name','hometown','picture','data_birth')
 
 
 

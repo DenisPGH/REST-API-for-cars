@@ -13,9 +13,17 @@ class TimeHelper(models.Model):
 
 
 class CustomCarUser(AbstractUser,SoftDeleteModel,TimeHelper):
-    user_car= models.CharField(
-        max_length=20,
-        null=True,
+    HOMETOWN_MAX_LENGHT=20
 
+    data_birth=models.DateField(
+        null=True,
+    )
+    hometown=models.CharField(
+        max_length=HOMETOWN_MAX_LENGHT,
+        null=True
+    )
+    picture=models.ImageField(
+        upload_to='media',
+        null=True,
     )
 

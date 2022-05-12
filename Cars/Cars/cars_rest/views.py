@@ -40,6 +40,9 @@ class UserViewSet(viewsets.ModelViewSet):
         user.username=data['username']
         user.first_name=data['first_name']
         user.last_name=data['last_name']
+        user.hometown=data['hometown']
+        user.data_birth=data['data_birth']
+        user.picture=data['picture']
         user.save()
         serializer = UpdateUsersSerializer(user)
         return Response(serializer.data)
