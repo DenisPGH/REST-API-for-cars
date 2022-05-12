@@ -1,3 +1,4 @@
+{% load static %}
 {% load bootstrap4 %}
 {% bootstrap_css %}
 {% bootstrap_javascript jquery='full' %}
@@ -9,6 +10,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+     <link rel="stylesheet" href="{% static 'registration.css' %}">
     <style>
         .field{
             width: 30%;
