@@ -34,6 +34,7 @@ class CarBrandListSerializer(serializers.ModelSerializer):
             name=validated_data['name'],
         )
         return new_brand
+    
     class Meta:
         model = CarBrand
         fields = ('name',)
