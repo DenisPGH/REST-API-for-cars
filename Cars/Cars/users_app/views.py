@@ -14,10 +14,14 @@ class MyLoginView(LoginView,auth_mixin.LoginRequiredMixin):
     def get_success_url(self):
         return reverse_lazy('main')
 
+
+
 class LogoutPageView(LogoutView):
     """ by pressing logout, redirect to fitst page"""
     def get_success_url(self):
         return reverse_lazy('index')
+
+
 
 class CreateNewUserForm(auth_forms.UserCreationForm):
     class Meta:
@@ -30,10 +34,14 @@ class CreateNewUserForm(auth_forms.UserCreationForm):
         }
 
 
+
+
 class RegistrationView(views.CreateView):
     form_class = CreateNewUserForm
     template_name = 'registration.html'
     success_url = reverse_lazy('loginJ')
+
+
 
 
 class MainPageView(views.TemplateView, auth_mixin.LoginRequiredMixin):
@@ -44,5 +52,4 @@ class MainPageView(views.TemplateView, auth_mixin.LoginRequiredMixin):
         context['brands'] = CarBrand.objects.all()
         context['users'] = CustomCarUser.objects.all()
         return context
-
     template_name = 'login.html'
