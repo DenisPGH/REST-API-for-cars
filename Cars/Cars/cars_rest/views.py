@@ -146,7 +146,15 @@ class SingleCarModelView(api_views.RetrieveUpdateDestroyAPIView):
 class CarsFilterSet(filters_rest.FilterSet):
     class Meta:
         model = UserCar
-        fields = ('user','car_brand','car_model','first_reg','odometer')
+        #fields = ('user','car_brand','car_model','first_reg','odometer')
+        fields={
+            'first_reg':['gt','lt'],
+            'user':['exact'],
+            'car_brand':['exact'],
+            'car_model':['exact'],
+            'odometer':['gt','lt'],
+
+        }
 
 
 class SingleCarViewSet(viewsets.ModelViewSet):
