@@ -1,13 +1,10 @@
 from datetime import datetime
-
 from django.db import models
-
-# Create your models here.
-
 from django_softdelete.models import SoftDeleteModel
-
 from Cars.cars_rest.managers import NotDeletedManager
 from Cars.users_app.models import TimeHelper, CustomCarUser, TimeCreated
+
+
 
 class DeleteAt(models.Model):
     objects = NotDeletedManager()
