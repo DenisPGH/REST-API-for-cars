@@ -71,7 +71,7 @@
         <th>Brand</th>
         <th>odometer</th>
         <th>Year</th>
-        <th>Is deleted</th>
+        <th>is deleted</th>
         <th>edit</th>
 
     </tr>
@@ -83,7 +83,7 @@
             <td>{{ each.car_brand }}</td>
             <td>{{ each.odometer }}</td>
             <td>{{ each.first_reg }}</td>
-            <td>{{ each.is_deleted }}</td>
+            <td>{{ each.deleted_at }}</td>
             <td>
                 <form class="app" method='get' action="{% url 'single car' each.id %}">
          <button class="regi">edit</button>
@@ -186,7 +186,7 @@
             <td>{{ each.last_name }}</td>
             <td>{{ each.hometown }}</td>
             <td>{{ each.data_birth }}</td>
-            <td>{{ each.is_deleted }}</td>
+            <td>{{ each.deleted_at }}</td>
 {#            {% if not each.is_deleted %}#}
             <td>
                 <form class="app" method='get' action="{% url 'edit user' each.id %}">

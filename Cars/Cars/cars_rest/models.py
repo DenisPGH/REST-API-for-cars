@@ -1,23 +1,24 @@
 from django.db import models
 
 # Create your models here.
+
 from django_softdelete.models import SoftDeleteModel
 
-from Cars.users_app.models import TimeHelper, CustomCarUser
+from Cars.users_app.models import TimeHelper, CustomCarUser, TimeCreated
 
 
-class CarBrand(TimeHelper,SoftDeleteModel):
+
+class CarBrand(TimeCreated,SoftDeleteModel):
     NAME_CAR_BRAND_LENGHT=100
     name=models.CharField(
         max_length=NAME_CAR_BRAND_LENGHT,
     )
-
     def __str__(self):
         return f"{self.name}"
 
 # CarModel [car_brand, name, created_at, update_at]
 
-class CarModel(SoftDeleteModel,TimeHelper):
+class CarModel(TimeHelper,SoftDeleteModel):
     NAME_CAR_MODEL_MAX_LENGHT = 200
     name=models.CharField(
         max_length=NAME_CAR_MODEL_MAX_LENGHT
@@ -31,7 +32,7 @@ class CarModel(SoftDeleteModel,TimeHelper):
 
 #UserCar [user, car_brand, car_model, first_reg, odometer, created_at, deleted_at]
 
-class UserCar(SoftDeleteModel,TimeHelper):
+class UserCar(TimeCreated,SoftDeleteModel):
     user=models.ForeignKey(
         CustomCarUser,
         on_delete=models.CASCADE,

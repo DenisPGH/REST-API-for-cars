@@ -28,7 +28,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
     def show(self, request,pk=None, *args, **kwargs):
         user = CustomCarUser.objects.get(pk=pk)
-        if not user.is_deleted:
+        if not user.deleted_at:
             serializer = UpdateUsersSerializer(user)
             return Response(serializer.data)
         else:
@@ -93,7 +93,7 @@ class SingleBrandViewSet(viewsets.ModelViewSet):
 
     def show(self, request, pk=None, *args, **kwargs):
         brand = CarBrand.objects.get(pk=pk)
-        if not brand.is_deleted:
+        if not brand.deleted_at:
             serializer = CarBrandSerializer(brand)
             return Response(serializer.data)
         else:
@@ -167,7 +167,7 @@ class SingleCarViewSet(viewsets.ModelViewSet):
     serializer_class = CarSerializer
     def show(self, request,pk=None, *args, **kwargs):
         car = UserCar.objects.get(pk=pk)
-        if not car.is_deleted:
+        if not car.deleted_at:
             serializer = UpdateCarSerializer(car)
             return Response(serializer.data)
         else:
