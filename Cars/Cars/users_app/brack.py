@@ -274,3 +274,14 @@
 # print(c.ret_list_2())
 # print(c.ret_list_2())
 #
+# return self.filter(deleted_at=None)
+# return CarBrandManagerQueryset(self.model, self._db).filter(deleted_at='2022-02-02')
+
+
+# class CarBrandManagerQueryset(models.query.QuerySet):
+#     def delete(self, cascade=None):
+#         cascade = get_settings()['cascade']
+#         if cascade:  # delete one by one if cascade
+#             for obj in self.all():
+#                 obj.delete(cascade=cascade)
+#         return self.update(deleted_at=datetime.now())
