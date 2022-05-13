@@ -106,8 +106,8 @@ class SingleBrandViewSet(viewsets.ModelViewSet):
         if serializer.is_valid():
             brand.name = data['name']
             brand.save()
-            serializer = CarBrandSerializer(brand)
-            return Response(serializer.data)
+            serializer_2 = CarBrandSerializer(brand)
+            return Response(serializer_2.data)
         else:
             return Response(serializer.errors,
                             status=status.HTTP_400_BAD_REQUEST)
@@ -190,7 +190,7 @@ class SingleCarViewSet(viewsets.ModelViewSet):
         serializer =UpdateCarSerializer(car)
         return Response(serializer.data)
 
-    
+
     def destroy(self, request,pk=None, *args, **kwargs):
         car = UserCar.objects.get(pk=pk)
         car.delete()
