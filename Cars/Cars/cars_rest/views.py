@@ -1,5 +1,5 @@
 
-from rest_framework import  viewsets
+from rest_framework import viewsets, status
 from rest_framework.response import Response
 from django_filters import rest_framework as filters_rest
 from rest_framework import generics as api_views,permissions
@@ -102,10 +102,15 @@ class SingleBrandViewSet(viewsets.ModelViewSet):
     def put(self, request, pk=None):
         brand = CarBrand.objects.get(pk=pk)
         data = request.data
-        brand.name = data['name']
-        brand.save()
-        serializer = CarBrandSerializer(brand)
-        return Response(serializer.data)
+        serializer=CarBrandSerializer(data=request.data)
+        if serializer.is_valid():
+            brand.name = data['name']
+            brand.save()
+            serializer = CarBrandSerializer(brand)
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors,
+                            status=status.HTTP_400_BAD_REQUEST)
 
     def destroy(self, request, pk=None, *args, **kwargs):
         brand=CarBrand.objects.get(pk=pk)
@@ -184,6 +189,8 @@ class SingleCarViewSet(viewsets.ModelViewSet):
         car.save()
         serializer =UpdateCarSerializer(car)
         return Response(serializer.data)
+
+    
     def destroy(self, request,pk=None, *args, **kwargs):
         car = UserCar.objects.get(pk=pk)
         car.delete()

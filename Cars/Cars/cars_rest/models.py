@@ -24,7 +24,7 @@ class DeleteAt(models.Model):
 
 
 class CarBrand(TimeCreated,DeleteAt):
-    NAME_CAR_BRAND_LENGHT=100
+    NAME_CAR_BRAND_LENGHT=10
     name=models.CharField(
         max_length=NAME_CAR_BRAND_LENGHT,
     )
@@ -35,7 +35,7 @@ class CarBrand(TimeCreated,DeleteAt):
 # CarModel [car_brand, name, created_at, update_at]
 
 class CarModel(TimeHelper,DeleteAt):
-    NAME_CAR_MODEL_MAX_LENGHT = 200
+    NAME_CAR_MODEL_MAX_LENGHT = 30
     name=models.CharField(
         max_length=NAME_CAR_MODEL_MAX_LENGHT
     )
