@@ -40,7 +40,7 @@ schema_view = get_schema_view(
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('Cars.users_app.urls'),name='users'),
-    path('restpart/',include('Cars.cars_rest.urls'),name='restpart'),
+    path('info/',include('Cars.cars_rest.urls'),name='restpart'),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     re_path(r'swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     re_path(r'swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
