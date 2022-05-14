@@ -182,13 +182,25 @@ class SingleCarViewSet(viewsets.ModelViewSet):
     def put(self, request, pk=None):
         car = UserCar.objects.get(pk=pk)
         data = request.data
-        car.car_model=CarModel.objects.get(id=data['car_model'])
-        car.car_brand=CarBrand.objects.get(id=data['car_brand'])
-        car.first_reg=data['first_reg']
-        car.odometer=data['odometer']
-        car.save()
-        serializer =UpdateCarSerializer(car)
-        return Response(serializer.data)
+        serializer = UpdateCarSerializer(data=request.data)
+        if serializer.is_valid():
+            car.car_model = CarModel.objects.get(id=data['car_model'])
+            car.car_brand = CarBrand.objects.get(id=data['car_brand'])
+            car.first_reg = data['first_reg']
+            car.odometer = data['odometer']
+            car.save()
+            serializer_2 = UpdateCarSerializer(car)
+            return Response(serializer_2.data)
+        else:
+            return Response(serializer.errors,
+                            status=status.HTTP_400_BAD_REQUEST)
+        # car.car_model=CarModel.objects.get(id=data['car_model'])
+        # car.car_brand=CarBrand.objects.get(id=data['car_brand'])
+        # car.first_reg=data['first_reg']
+        # car.odometer=data['odometer']
+        # car.save()
+        # serializer =UpdateCarSerializer(car)
+        # return Response(serializer.data)
 
 
     def destroy(self, request,pk=None, *args, **kwargs):
