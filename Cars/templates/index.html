@@ -19,7 +19,7 @@
                 <button class="login">LOGIN</button>
                 {% csrf_token %}
             </form>
-     <form class="registration" method='post' action="{% url 'registration' %}">
+     <form class="registration" method='get' action="{% url 'registration' %}">
                 <button class="login">New registration</button>
                 {% csrf_token %}
             </form>

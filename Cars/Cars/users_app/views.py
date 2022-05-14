@@ -1,3 +1,4 @@
+
 from bootstrap_datepicker_plus.widgets import DatePickerInput
 from django.urls import reverse_lazy
 from django.views import generic as views
@@ -26,14 +27,22 @@ class LogoutPageView(LogoutView):
 
 
 class CreateNewUserForm(auth_forms.UserCreationForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for fieldname in ['username','password1', 'password2','first_name',
+                  'last_name','hometown','data_birth','picture']:
+            self.fields[fieldname].help_text = None
+
+
     class Meta:
         model = CustomCarUser
         fields = ('username','password1', 'password2','first_name',
                   'last_name','hometown','data_birth','picture' )
         widgets = {
             'data_birth': DatePickerInput,
-
         }
+
+
 
 
 
