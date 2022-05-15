@@ -57,7 +57,7 @@ class RegistrationView(views.CreateView):
 
 class MainPageView(views.TemplateView, auth_mixin.LoginRequiredMixin):
 
-    # """ overwrite dispatch for is_deleted users not permission"""
+    # """ overwrite dispatch for is_deleted users remove the access"""
     # def dispatch(self, request, *args, **kwargs):
     #     if not request.user.is_authenticated or request.user.is_deleted:
     #         return self.handle_no_permission()

@@ -6,7 +6,8 @@ from Cars.users_app.models import TimeHelper, CustomCarUser, TimeCreated
 
 
 
-class DeleteAt(models.Model):
+class DeletedAt(models.Model):
+    """ my soft delete class """
     objects = NotDeletedManager()
     all_objects_in_db=models.Manager() # for testing
     deleted_at = models.DateTimeField(
@@ -24,7 +25,7 @@ class DeleteAt(models.Model):
 
 
 
-class CarBrand(TimeCreated,DeleteAt):
+class CarBrand(TimeCreated, DeletedAt):
     NAME_CAR_BRAND_LENGHT=10
     name=models.CharField(
         max_length=NAME_CAR_BRAND_LENGHT,
@@ -35,7 +36,7 @@ class CarBrand(TimeCreated,DeleteAt):
 
 # CarModel [car_brand, name, created_at, update_at]
 
-class CarModel(TimeHelper,DeleteAt):
+class CarModel(TimeHelper, DeletedAt):
     NAME_CAR_MODEL_MAX_LENGHT = 30
     name=models.CharField(
         max_length=NAME_CAR_MODEL_MAX_LENGHT
@@ -50,7 +51,7 @@ class CarModel(TimeHelper,DeleteAt):
 
 #UserCar [user, car_brand, car_model, first_reg, odometer, created_at, deleted_at]
 
-class UserCar(TimeCreated,DeleteAt):
+class UserCar(TimeCreated, DeletedAt):
     user=models.ForeignKey(
         CustomCarUser,
         on_delete=models.CASCADE,

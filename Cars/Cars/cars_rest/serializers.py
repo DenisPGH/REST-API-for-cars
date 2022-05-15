@@ -46,6 +46,10 @@ class CarBrandSerializer(serializers.ModelSerializer):
         fields = ('name',)
 
 
+
+
+
+
 """ car models serializers """
 class CarModelSerializer(serializers.ModelSerializer):
     class Meta:
@@ -56,6 +60,9 @@ class UpdateCarModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = CarModel
         fields = ('id','name','car_brand')
+
+
+
 
 
 

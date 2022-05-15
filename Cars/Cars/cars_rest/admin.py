@@ -1,6 +1,4 @@
 from django.contrib import admin
-
-# Register your models here.
 from Cars.cars_rest.models import CarBrand,CarModel,UserCar
 
 

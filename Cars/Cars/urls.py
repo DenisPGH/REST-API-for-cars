@@ -14,9 +14,6 @@ schema_view = get_schema_view(
       default_version='v1',
       description="API-cars-view-scheme. You can check all methods(request and response)"
                   ", if they work properly.",
-      #terms_of_service="https://www.google.com/policies/terms/",
-      # contact=openapi.Contact(email="contact@snippets.local"),
-      # license=openapi.License(name="BSD License"),
    ),
    public=True,
    permission_classes=(

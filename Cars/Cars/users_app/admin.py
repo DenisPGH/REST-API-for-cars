@@ -1,10 +1,4 @@
 from django.contrib import admin
-
-# Register your models here.
-
-# @admin.register(RoboUser)
-# class TaskUser(admin.ModelAdmin):
-#     list_display = ('password','last_login','email')
 from Cars.users_app.models import CustomCarUser
 
 

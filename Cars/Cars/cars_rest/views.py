@@ -3,12 +3,13 @@ from rest_framework import viewsets, status
 from rest_framework.response import Response
 from django_filters import rest_framework as filters_rest
 from rest_framework import generics as api_views,permissions
-
 from Cars.cars_rest.models import CarBrand, CarModel, UserCar
 from Cars.cars_rest.serializers import InfoAllUsersSerializer, CarBrandSerializer, CarModelSerializer, \
     CreateCarSerializer, CarSerializer, CarBrandListSerializer, UpdateUsersSerializer, \
     UpdateCarSerializer, UpdateCarModelSerializer
 from Cars.users_app.models import CustomCarUser
+
+
 
 """ ==============here USER logic==============================="""
 class UserFilterSet(filters_rest.FilterSet):
@@ -39,7 +40,7 @@ class UserViewSet(viewsets.ModelViewSet):
         user = CustomCarUser.objects.get(pk=pk)
         data = request.data
         serializer = UpdateUsersSerializer(data=request.data)
-        if serializer.is_valid() and user.deleted_at==None:
+        if serializer.is_valid() and user.deleted_at==None: # could update only active users
             user.first_name=data['first_name']
             user.last_name=data['last_name']
             user.hometown=data['hometown']
@@ -199,13 +200,7 @@ class SingleCarViewSet(viewsets.ModelViewSet):
         else:
             return Response(serializer.errors,
                             status=status.HTTP_400_BAD_REQUEST)
-        # car.car_model=CarModel.objects.get(id=data['car_model'])
-        # car.car_brand=CarBrand.objects.get(id=data['car_brand'])
-        # car.first_reg=data['first_reg']
-        # car.odometer=data['odometer']
-        # car.save()
-        # serializer =UpdateCarSerializer(car)
-        # return Response(serializer.data)
+
 
 
     def destroy(self, request,pk=None, *args, **kwargs):
