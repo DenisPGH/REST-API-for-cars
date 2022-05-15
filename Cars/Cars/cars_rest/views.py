@@ -38,15 +38,20 @@ class UserViewSet(viewsets.ModelViewSet):
     def put(self, request, pk=None):
         user = CustomCarUser.objects.get(pk=pk)
         data = request.data
-        user.username=data['username']
-        user.first_name=data['first_name']
-        user.last_name=data['last_name']
-        user.hometown=data['hometown']
-        user.data_birth=data['data_birth']
-        user.picture=data['picture']
-        user.save()
-        serializer = UpdateUsersSerializer(user)
-        return Response(serializer.data)
+        serializer = UpdateUsersSerializer(data=request.data)
+        if serializer.is_valid() and user.deleted_at==None:
+            user.first_name=data['first_name']
+            user.last_name=data['last_name']
+            user.hometown=data['hometown']
+            user.data_birth=data['data_birth']
+            user.picture=data['picture']
+            user.save()
+            serializer_2 = UpdateUsersSerializer(user)
+            return Response(serializer_2.data)
+        else:
+            return Response(serializer.errors,
+                            status=status.HTTP_400_BAD_REQUEST)
+
 
     def destroy(self, request,pk=None, *args, **kwargs):
         user = CustomCarUser.objects.get(pk=pk)

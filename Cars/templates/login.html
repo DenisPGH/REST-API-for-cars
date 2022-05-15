@@ -179,8 +179,11 @@
     </tr>
     {%  for each in users %}
         <tr>
-
-            <td>{{ each.picture}}</td>
+            {% if each.picture %}
+            <td><img height="100" width="100" src="{{each.picture.url}}" alt="Pic of user"></td>
+            {% else %}
+                <td>{{ each.picture}}</td>
+            {% endif %}
             <td>{{ each.username}}</td>
             <td>{{ each.first_name}}</td>
             <td>{{ each.last_name }}</td>
