@@ -220,6 +220,29 @@ class CarModelsTests(TestCase):
         self.assertEqual(response.status_code, 400) # more than 30 char
 
 
+    def test_soft_delete_a_carmodel(self):
+        test_brand = CarBrand(name='Audi')
+        test_brand.save()
+        carmodel = {
+            'name': "Fiat",
+            'car_brand': CarBrand.objects.get(name='Audi')
+        }
+
+        new_carmodel = CarModel(**carmodel)
+        new_carmodel.save()
+        model_for_delete = CarModel.objects.last()
+        # model_for_delete.delete() # other test for delete
+        # self.assertIsNotNone(model_for_delete.deleted_at)
+        self.__login_user()
+        response = self.client.delete(
+            reverse('single model', kwargs={'pk': f"{model_for_delete.pk}"}),content_type='application/json')
+        self.assertEqual(response.status_code, 204)
+        self.assertEqual(1, len(CarModel.all_objects_in_db.all()))
+        self.assertEqual(carmodel['name'], CarModel.all_objects_in_db.last().name)
+
+
+
+
 
 
 

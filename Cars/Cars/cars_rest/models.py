@@ -8,6 +8,7 @@ from Cars.users_app.models import TimeHelper, CustomCarUser, TimeCreated
 
 class DeleteAt(models.Model):
     objects = NotDeletedManager()
+    all_objects_in_db=models.Manager() # for testing
     deleted_at = models.DateTimeField(
         null=True,
     )
