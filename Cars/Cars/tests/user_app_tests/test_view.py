@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
-from Cars.cars_rest.models import CarBrand, CarModel
+from Cars.cars_rest.models import CarBrand, CarModel, UserCar
 from Cars.users_app.models import CustomCarUser
 
 
@@ -9,7 +9,7 @@ from Cars.users_app.models import CustomCarUser
 
 
 
-class RegistrationPageTest(TestCase):
+class RegistrationPageTests(TestCase):
     UserModel=get_user_model()
     test_username="ani"
     test_password='1234'
@@ -42,7 +42,7 @@ class RegistrationPageTest(TestCase):
 
 
 
-class TestMainPage(TestCase):
+class TestsMainPage(TestCase):
     UserModel = get_user_model()
     test_user = {
         "username": "miro",
@@ -64,7 +64,7 @@ class TestMainPage(TestCase):
 
 
 
-class BrandsTest(TestCase):
+class BrandsTests(TestCase):
     UserModel = get_user_model()
     test_username = "ani"
     test_password = '1234'
@@ -238,9 +238,52 @@ class CarModelsTests(TestCase):
             reverse('single model', kwargs={'pk': f"{model_for_delete.pk}"}),content_type='application/json')
         self.assertEqual(response.status_code, 204)
         self.assertEqual(1, len(CarModel.all_objects_in_db.all()))
+        self.assertEqual(0, len(CarModel.objects.all()))
         self.assertEqual(carmodel['name'], CarModel.all_objects_in_db.last().name)
 
 
+
+class UserCartests(TestCase):
+    UserModel = get_user_model()
+    test_carbrand = {'name': "Audi", }
+
+    def __create_arrange_for_car(self):
+
+        test_brand = CarBrand(name=self.test_carbrand['name'])
+        test_brand.save()
+        carmodel = {
+            'name': "TT",
+            'car_brand': CarBrand.objects.get(name=self.test_carbrand['name'])
+        }
+        new_model = CarModel(**carmodel)
+        new_model.save()
+        test_user = {
+            "username": "Gosho",
+            'password': "123"
+        }
+        self.UserModel.objects.create_user(**test_user)
+        self.client.login(**test_user)
+
+
+
+
+    def test_creation_new_car__valid_data___return_sucess(self):
+        self.__create_arrange_for_car()
+        new_car={
+              "user": 1,
+              "car_brand": 1,
+              "car_model": 1,
+              "first_reg": "2022-05-15",
+              "odometer": 1000
+            }
+
+        response = self.client.post(
+            reverse('cars',kwargs=None), new_car, content_type='application/json')
+        print(response.json())
+
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(1, len(UserCar.all_objects_in_db.all()))
+        self.assertEqual(CarBrand.objects.last().name, UserCar.objects.last().car_brand.name)
 
 
 
