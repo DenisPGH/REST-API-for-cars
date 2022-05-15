@@ -6,7 +6,7 @@ from Cars.cars_rest.views import UsersListView, ListModels, ListCars, SingleCarM
 urlpatterns=(
     path('users/',UsersListView.as_view(),name="restusers"),
     path('users/<int:pk>/',UserViewSet.as_view({'get':'show','put':'put','delete':'destroy'}),name="edit user"),
-    path('brands/',BrandsViewSet.as_view({'get': 'list','put':'create'}),name="brands"),
+    path('brands/',BrandsViewSet.as_view({'get': 'list','post':'create'}),name="brands"),
     path('brands/<int:pk>/', SingleBrandViewSet.as_view({'get': 'show','put':'put','delete':'destroy'}), name='single brand'),
     path('models/',ListModels.as_view(),name="models"),
     path('models/<int:pk>/', SingleCarModelView.as_view(), name='single model'),
