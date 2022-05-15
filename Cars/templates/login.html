@@ -190,7 +190,6 @@
             <td>{{ each.hometown }}</td>
             <td>{{ each.data_birth }}</td>
             <td>{{ each.deleted_at }}</td>
-{#            {% if not each.is_deleted %}#}
             <td>
                 <form class="app" method='get' action="{% url 'edit user' each.id %}">
          <button class="regi">edit</button>
@@ -199,7 +198,6 @@
         </form>
 
             </td>
-{#        {% endif %}#}
 
         </tr>
 
